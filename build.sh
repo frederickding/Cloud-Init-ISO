@@ -2,7 +2,7 @@
 
 echo "Building image..."
 
-genisoimage -output init.iso -volid cidata -joliet -rock user-data meta-data
+genisoimage -output init.iso -volid cidata -joliet -rock user-data meta-data 2>build.log
 
 FILESIZE=$(stat -c %s init.iso 2>/dev/null)
 COLUMNS=$(tput cols)
