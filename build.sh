@@ -1,4 +1,6 @@
 #!/bin/bash
+# MIT License. See LICENSE file.
+
 FILENAME='init.iso'
 
 if [ $# -eq 1 ]; then

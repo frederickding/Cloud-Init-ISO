@@ -27,6 +27,10 @@ template and script. It draws heavily on existing resources ([2][2], [3][3]).
    conventional to your virtualization hypervisor.
 8. Boot the VM!
 
+## License
+
+Some parts of this project are clearly not original. However, the bash script is 
+hereby licensed under the MIT License; see `LICENSE`.
 
 [1]: http://cloudinit.readthedocs.org/en/latest/topics/datasources.html#no-cloud
 [2]: https://www.technovelty.org/linux/running-cloud-images-locally.html
