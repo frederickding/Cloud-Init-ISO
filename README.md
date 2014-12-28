@@ -15,15 +15,20 @@ template and script. It draws heavily on existing resources ([2][2], [3][3]).
 
 ## Usage
 
-1. Clone this repository.
+1. Clone this repository. (optional: maybe create and checkout your own branch?)
 2. Modify the `meta-data` YAML file to specify your `instance-id` and `local-hostname`.
 3. Modify the `cloud-config` YAML file to specify a password and/or SSH keys; 
    the cloud image determines the default user's login name 
    (e.g. `fedora` in Fedora Cloud).
-4. Verify that you have the dependency `genisoimage`. In RHEL/CentOS/Fedora, 
+4. (optional) Commit your changes in git. This helps the build script name your ISO.
+5. Verify that you have the dependency `genisoimage`. In RHEL/CentOS/Fedora, 
    `sudo yum install genisoimage`; in Ubuntu/Debian, `sudo apt-get install genisoimage`.
-5. Build the ISO using `./build.sh`.
-6. If everything went well, attach the `init.iso` file to your VM by methods 
+6. Build the ISO using `./build.sh`. You can either specify an output filename as the 
+   first parameter (e.g. `./build.sh output-file.iso`), or you can let the script decide 
+   on the filename. If you are working inside a git repository, the build script should 
+   name your file after the branch and commit hash, such as 
+   `frost-init-20141228.4d48bab28b6d8f9c43f7b6e36238ef6863b41e90.iso`.
+7. If everything went well, attach the ISO file to your VM by methods 
    conventional to your virtualization hypervisor.
 8. Boot the VM!
 
