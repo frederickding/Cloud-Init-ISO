@@ -4,12 +4,17 @@
 FILENAME='init.iso'
 
 # if we are in a git repository, name the ISO after the branch, date, and commit hash
-IS_GIT=$(git rev-parse --is-inside-work-tree 2> /dev/null)
-if [ $IS_GIT ]; then
-	GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-	GIT_COMMIT=$(git rev-parse HEAD)
-	DATE=$(date -u '+%Y%m%d')
-	FILENAME="$(basename $GIT_BRANCH)-init-$DATE.$GIT_COMMIT.iso"
+if [[ -v $CI ]]; then
+	echo "We are in a CI/build environment."
+	FILENAME="${CI_COMMIT_REF_SLUG}-init-$(date -u '+%Y%m%d').${CI_COMMIT_SHA}.iso"
+else
+	IS_GIT=$(git rev-parse --is-inside-work-tree 2> /dev/null)
+	if [ $IS_GIT ]; then
+		GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+		GIT_COMMIT=$(git rev-parse HEAD)
+		DATE=$(date -u '+%Y%m%d')
+		FILENAME="$(basename $GIT_BRANCH)-init-$DATE.$GIT_COMMIT.iso"
+	fi
 fi
 
 if [ $# -eq 1 ]; then

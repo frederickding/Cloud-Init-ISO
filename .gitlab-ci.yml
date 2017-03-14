@@ -4,19 +4,15 @@ stages:
   - build
 
 before_script:
-  - uname -a
-  - cat /etc/os-release
+  - uname -a && cat /etc/os-release
 
 build:
   stage: build
   tags:
     - linux
   script:
-    - dnf install -y genisoimage git
+    - dnf install -y genisoimage
     - ./build.sh
   artifacts:
-    paths:
-    - init.iso
-    - /*-init-*.*.iso
-    - build.log
+    untracked: true
     expire_in: 6 mos
