@@ -4,7 +4,8 @@ stages:
   - build
 
 before_script:
-  - docker info
+  - uname -a
+  - cat /etc/os-release
 
 build:
   stage: build
