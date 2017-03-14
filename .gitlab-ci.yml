@@ -1,0 +1,20 @@
+image: fedora:latest
+
+stages:
+  - build
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  tags:
+    - linux
+  script:
+    - dnf install -y genisoimage git
+    - ./build.sh
+  artifacts:
+    expire_in: 6 mos
+    paths:
+      - *.iso
+
