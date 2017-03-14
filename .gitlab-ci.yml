@@ -14,7 +14,8 @@ build:
     - dnf install -y genisoimage git
     - ./build.sh
   artifacts:
-    expire_in: 6 mos
     paths:
-      - *.iso
-
+    - init.iso
+    - /*-init-*.*.iso
+    - build.log
+    expire_in: 6 mos
