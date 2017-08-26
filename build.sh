@@ -6,7 +6,7 @@ FILENAME='init.iso'
 # if we are in a git repository, name the ISO after the branch, date, and commit hash
 if [ -v CI ]; then
 	echo "We are in a CI/build environment."
-	FILENAME="$CI_BUILD_REF_SLUG-init-$(date -u '+%Y%m%d').$CI_BUILD_REF.iso"
+	FILENAME="$CI_COMMIT_REF_SLUG-init-$(date -u '+%Y%m%d').$CI_COMMIT_SHA.iso"
 else
 	IS_GIT=$(git rev-parse --is-inside-work-tree 2> /dev/null)
 	if [ $IS_GIT ]; then
