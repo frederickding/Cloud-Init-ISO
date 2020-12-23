@@ -29,8 +29,8 @@ Ubuntu, Debian, and derivatives thereof, `sudo apt install genisoimage`.
 5. Build the ISO using `./build.sh`. You can either specify an output filename as the 
    first parameter (e.g. `./build.sh output-file.iso`), or you can let the script decide 
    on the filename. If you are working inside a git repository, the build script should 
-   name your file after the branch and commit hash, such as 
-   `frost-init-20141228.4d48bab28b6d8f9c43f7b6e36238ef6863b41e90.iso`.
+   name your file after the branch and short commit hash, such as 
+   `frost-init-20141228.dd648b2e.iso`.
 6. If everything went well, attach the ISO file to your VM by methods 
    conventional to your virtualization hypervisor.
 7. Boot the VM!
