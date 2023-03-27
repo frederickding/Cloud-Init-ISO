@@ -4,7 +4,7 @@
 FILENAME='init.iso'
 
 # if we are in a git repository, name the ISO after the branch, date, and short commit hash
-if [ -v CI ]; then
+if [[ ! -z "$CI" ]]; then
 	echo "We are in a CI/build environment."
 	FILENAME="$CI_COMMIT_REF_SLUG-init-$(date -u '+%Y%m%d').$CI_COMMIT_SHORT_SHA.iso"
 else
@@ -27,9 +27,29 @@ else
 	echo "Building image to $FILENAME ..."
 fi
 
-genisoimage -output $FILENAME -volid cidata -joliet -rock user-data meta-data 2>build.log
+# test executable so we can use xorrisofs, mkisofs, or genisoimage as appropriate
+TOOL=xorrisofs
+if command -v xorrisofs &> /dev/null; then
+	echo "Using xorrisofs ..."
+elif command -v mkisofs &> /dev/null; then
+	TOOL=mkisofs
+	echo "xorrisofs not available; using mkisofs ..."
+elif command -v genisoimage &> /dev/null; then
+	TOOL=genisoimage
+	echo "xorrisofs not available; falling back to genisoimage ..."
+else
+	echo "You must install xorriso, mkisofs, or genisoimage to run this script."
+	exit 1
+fi
 
-FILESIZE=$(stat -c %s $FILENAME 2>/dev/null)
+"$TOOL" -output $FILENAME -volid cidata -joliet -rock user-data meta-data 2>build.log
+
+FILESIZE=0
+if [[ "$(uname)" == "Darwin" || "$(uname)" == "FreeBSD" ]]; then
+	FILESIZE=$(stat -f %z $FILENAME 2>/dev/null)
+else
+	FILESIZE=$(stat -c %s $FILENAME 2>/dev/null)
+fi
 COLUMNS=$(tput cols)
 if [[ $FILESIZE > 0 ]]; then
 	printf '%s (%d bytes) ... done!\n' $FILENAME $FILESIZE

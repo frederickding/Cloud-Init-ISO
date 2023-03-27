@@ -14,9 +14,11 @@ This repository and guide aims to make this task a lot easier by pre-seeding a
 template and script. It draws heavily on existing resources ([2][2], [3][3]).
 
 ## Dependencies
-You need `genisoimage` installed. For RHEL, CentOS, Fedora, Oracle Linux, etc.,
-`sudo dnf install genisoimage` (use `yum` if you are on RHEL/CentOS/OL 7). For 
-Ubuntu, Debian, and derivatives thereof, `sudo apt install genisoimage`.
+You need one of xorriso, `mkisofs`, or `genisoimage` installed. 
+
+For RHEL, CentOS, Fedora, Oracle Linux, etc., `sudo dnf install xorriso`. For older versions, `sudo dnf install genisoimage` (use `yum` if on RHEL/CentOS/OL 7). For Ubuntu, Debian, and derivatives thereof, `sudo apt install xorriso`.
+
+For macOS, `brew install xorriso`.
 
 ## Usage
 
