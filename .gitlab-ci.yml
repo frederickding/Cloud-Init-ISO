@@ -11,7 +11,7 @@ build:
   tags:
     - linux
   script:
-    - dnf install -y genisoimage
+    - dnf install -y xorriso
     - ./build.sh
   artifacts:
     untracked: true
