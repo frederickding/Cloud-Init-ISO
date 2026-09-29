@@ -55,7 +55,8 @@ FILENAME='init.iso'
 if [ -n "$GITLAB_CI" ] && [ -n "$CI_COMMIT_REF_SLUG" ]; then
 	echo "We are in a GitLab CI/build environment."
 	FILENAME="$CI_COMMIT_REF_SLUG-init-$(date -u '+%Y%m%d').$CI_COMMIT_SHORT_SHA.iso"
-elif [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]; then
+elif command -v git > /dev/null 2>&1 \
+	&& [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]; then
 	GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
 	GIT_COMMIT=$(git rev-parse --short HEAD 2> /dev/null)
 	DATE=$(date -u '+%Y%m%d')
