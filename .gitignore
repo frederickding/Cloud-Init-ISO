@@ -1,3 +1,4 @@
 build.log
 init.iso
 *-init-*.*.iso
+*.iso.partial.*

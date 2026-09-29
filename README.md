@@ -36,7 +36,9 @@ build script is plain POSIX `sh`, so bash is not required.
    first parameter (e.g. `./build.sh output-file.iso`), or you can let the script decide 
    on the filename. If you are working inside a git repository, the build script should 
    name your file after the branch and short commit hash, such as 
-   `frost-init-20141228.dd648b2e.iso`.
+   `frost-init-20141228.dd648b2e.iso`. If the output file already exists, the script 
+   stops without touching it; pass `--overwrite` (or `-f`/`--force`) to replace it, 
+   e.g. `./build.sh --overwrite output-file.iso`.
 6. If everything went well, attach the ISO file to your VM by methods 
    conventional to your virtualization hypervisor.
 7. Boot the VM!
