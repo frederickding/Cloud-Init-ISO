@@ -1,6 +1,54 @@
 #!/bin/sh
 # MIT License. See LICENSE file.
 
+usage() {
+	echo 'Usage: ./build.sh [-f|--force|--overwrite] [filename]'
+}
+
+# parse command line flags; sets OVERWRITE and OUTPUT_ARG
+parse_args() {
+	OVERWRITE=0
+	OUTPUT_ARG=''
+	while [ $# -gt 0 ]; do
+		case "$1" in
+			-f|--force|--overwrite)
+				OVERWRITE=1
+				;;
+			-h|--help)
+				usage
+				exit 0
+				;;
+			--)
+				shift
+				break
+				;;
+			-*)
+				echo "Unknown option: $1"
+				usage
+				exit 1
+				;;
+			*)
+				if [ -n "$OUTPUT_ARG" ]; then
+					usage
+					exit 1
+				fi
+				OUTPUT_ARG=$1
+				;;
+		esac
+		shift
+	done
+	# anything after -- is the filename
+	if [ $# -gt 0 ]; then
+		if [ -n "$OUTPUT_ARG" ] || [ $# -gt 1 ]; then
+			usage
+			exit 1
+		fi
+		OUTPUT_ARG=$1
+	fi
+}
+
+parse_args "$@"
+
 FILENAME='init.iso'
 
 # if we are in a git repository, name the ISO after the branch, date, and short commit hash
@@ -16,48 +64,6 @@ elif [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = "true" ]; then
 	fi
 fi
 
-usage() {
-	echo 'Usage: ./build.sh [-f|--force|--overwrite] [filename]'
-}
-
-OVERWRITE=0
-OUTPUT_ARG=''
-while [ $# -gt 0 ]; do
-	case "$1" in
-		-f|--force|--overwrite)
-			OVERWRITE=1
-			;;
-		-h|--help)
-			usage
-			exit 0
-			;;
-		--)
-			shift
-			break
-			;;
-		-*)
-			echo "Unknown option: $1"
-			usage
-			exit 1
-			;;
-		*)
-			if [ -n "$OUTPUT_ARG" ]; then
-				usage
-				exit 1
-			fi
-			OUTPUT_ARG=$1
-			;;
-	esac
-	shift
-done
-# anything after -- is the filename
-if [ $# -gt 0 ]; then
-	if [ -n "$OUTPUT_ARG" ] || [ $# -gt 1 ]; then
-		usage
-		exit 1
-	fi
-	OUTPUT_ARG=$1
-fi
 if [ -n "$OUTPUT_ARG" ]; then
 	FILENAME=$OUTPUT_ARG
 fi
