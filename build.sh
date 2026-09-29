@@ -117,7 +117,16 @@ fail() {
 FILESIZE=$(wc -c < "$TMPFILE" 2>/dev/null | tr -d ' ')
 [ "${FILESIZE:-0}" -gt 0 ] || fail
 
-if [ "$OVERWRITE" -eq 1 ]; then
+if [ "$OVERWRITE" -eq 1 ] && [ -e "$FILENAME" ]; then
+	# write into the existing file so its permissions, ownership, SELinux label, and hard links are kept
+	if ! cat -- "$TMPFILE" > "$FILENAME" \
+		|| [ "$(wc -c < "$FILENAME" | tr -d ' ')" != "$FILESIZE" ]; then
+		printf 'Could not write into %s; it may now be incomplete.\n' "$FILENAME"
+		printf 'The built image was left at %s\n' "$TMPFILE"
+		exit 1
+	fi
+	rm -f -- "$TMPFILE"
+elif [ "$OVERWRITE" -eq 1 ]; then
 	mv -f -- "$TMPFILE" "$FILENAME" || fail
 else
 	# ln refuses to replace an existing file, so nothing that appeared since the check is clobbered
